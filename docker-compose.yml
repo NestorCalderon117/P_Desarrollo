@@ -25,6 +25,13 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      args:
+        # Pasa variables de proxy si tu red las requiere (opcionales)
+        HTTP_PROXY: ${HTTP_PROXY-}
+        HTTPS_PROXY: ${HTTPS_PROXY-}
+        NO_PROXY: ${NO_PROXY-}
+        # Establécer a 'true' si el proxy intercepta SSL y se necesita desactivar strict-ssl en npm
+        INSECURE_SSL: ${INSECURE_SSL-false}
     container_name: basketball-backend
     environment:
       - PORT=3001

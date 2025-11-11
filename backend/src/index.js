@@ -2,8 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
+import authRoutes from './routes/auth.js';
 import teamsRoutes from './routes/teams.js';
 import gamesRoutes from './routes/games.js';
+import scheduledGamesRoutes from './routes/scheduledGames.js';
+import { authenticateToken } from './middleware/auth.js';
 
 dotenv.config();
 
@@ -15,14 +18,18 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Rutas
-app.use('/api/teams', teamsRoutes);
-app.use('/api/games', gamesRoutes);
+// Rutas públicas
+app.use('/api/auth', authRoutes);
 
 // Ruta de salud
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', message: 'Basketball API is running' });
 });
+
+// Rutas protegidas (requieren autenticación)
+app.use('/api/teams', authenticateToken, teamsRoutes);
+app.use('/api/games', authenticateToken, gamesRoutes);
+app.use('/api/scheduled-games', authenticateToken, scheduledGamesRoutes);
 
 // Manejo de errores
 app.use((err, req, res, next) => {
