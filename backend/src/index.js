@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173', // Fallback para desarrollo local
+  origin: process.env.CORS_ORIGIN || 'http://72.60.123.9:5173', // Fallback para desarrollo local
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
