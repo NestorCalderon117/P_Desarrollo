@@ -42,8 +42,8 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      sqlserver:
-        condition: service_healthy
+      db-init:
+        condition: service_completed_successfully
     networks:
       - basketball-network
     restart: unless-stopped
@@ -61,11 +61,11 @@ services:
       - basketball-network
     command: >
       /bin/bash -c "
-      sleep 10 &&
       /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'YourStrong@Passw0rd' -i /init.sql &&
       echo 'Database initialized successfully'
       "
-    restart: on-failure
+    # No reiniciar para que 'service_completed_successfully' funcione correctamente
+    # restart: on-failure
 
   # Frontend (React + Vite)
   frontend:
