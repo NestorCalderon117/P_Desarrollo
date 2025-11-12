@@ -39,8 +39,8 @@ services:
       - DB_PASSWORD=YourStrong@Passw0rd
       - DB_SERVER=sqlserver
       - DB_NAME=BasketballDB
-    ports:
-      - "3001:3001"
+    # ports:
+    #   - "3001:3001"
     depends_on:
       db-init:
         condition: service_completed_successfully
